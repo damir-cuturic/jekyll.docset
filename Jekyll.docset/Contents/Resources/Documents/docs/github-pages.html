@@ -1,0 +1,555 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Pages</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>GitHub Pages</h1>
+          <p><a href="http://pages.github.com">GitHub Pages</a> are public web pages for users,
+organizations, and repositories, that are freely hosted on GitHub’s
+<code class="highlighter-rouge">github.io</code> domain or on a custom domain name of your choice. GitHub Pages are
+powered by Jekyll behind the scenes, so in addition to supporting regular HTML
+content, they’re also a great way to host your Jekyll-powered website for free.</p>
+
+<h2 id="deploying-jekyll-to-github-pages">Deploying Jekyll to GitHub Pages</h2>
+
+<p>GitHub Pages work by looking at certain branches of repositories on GitHub.
+There are two basic types available: user/organization pages and project pages.
+The way to deploy these two types of sites are nearly identical, except for a
+few minor details.</p>
+
+<div class="note protip">
+  <h5>Use the <code>github-pages</code> gem</h5>
+  <p>
+    Our friends at GitHub have provided the
+    <a href="https://github.com/github/pages-gem">github-pages</a>
+    gem which is used to manage Jekyll and its dependencies on
+    GitHub Pages. Using it in your projects means that when you deploy
+    your site to GitHub Pages, you will not be caught by unexpected
+    differences between various versions of the gems. To use the
+    currently-deployed version of the gem in your project, add the
+    following to your <code>Gemfile</code>:
+
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">source</span> <span class="s1">'https://rubygems.org'</span>
+
+<span class="nb">require</span> <span class="s1">'json'</span>
+<span class="nb">require</span> <span class="s1">'open-uri'</span>
+<span class="n">versions</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">'https://pages.github.com/versions.json'</span><span class="p">).</span><span class="nf">read</span><span class="p">)</span>
+
+<span class="n">gem</span> <span class="s1">'github-pages'</span><span class="p">,</span> <span class="n">versions</span><span class="p">[</span><span class="s1">'github-pages'</span><span class="p">]</span></code></pre></figure>
+
+
+    This will ensure that when you run <code>bundle install</code>, you
+    have the correct version of the <code>github-pages</code> gem.
+
+    If that fails, simplify it:
+
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">source</span> <span class="s1">'https://rubygems.org'</span>
+
+<span class="n">gem</span> <span class="s1">'github-pages'</span></code></pre></figure>
+
+
+    And be sure to run <code>bundle update</code> often.
+  </p>
+</div>
+
+<h3 id="user-and-organization-pages">User and Organization Pages</h3>
+
+<p>User and organization pages live in a special GitHub repository dedicated to
+only the GitHub Pages files. This repository must be named after the account
+name. For example, <a href="https://github.com/mojombo/mojombo.github.io">@mojombo’s user page
+repository</a> has the name
+<code class="highlighter-rouge">mojombo.github.io</code>.</p>
+
+<p>Content from the <code class="highlighter-rouge">master</code> branch of your repository will be used to build and
+publish the GitHub Pages site, so make sure your Jekyll site is stored there.</p>
+
+<div class="note info">
+  <h5>Custom domains do not affect repository names</h5>
+  <p>
+    GitHub Pages are initially configured to live under the
+    <code>username.github.io</code> subdomain, which is why repositories must
+    be named this way <strong>even if a custom domain is being used</strong>.
+  </p>
+</div>
+
+<h3 id="project-pages">Project Pages</h3>
+
+<p>Unlike user and organization Pages, Project Pages are kept in the same
+repository as the project they are for, except that the website content is
+stored in a specially named <code class="highlighter-rouge">gh-pages</code> branch. The content of this branch will
+be rendered using Jekyll, and the output will become available under a subpath
+of your user pages subdomain, such as <code class="highlighter-rouge">username.github.io/project</code> (unless a
+custom domain is specified—see below).</p>
+
+<p>The Jekyll project repository itself is a perfect example of this branch
+structure—the <a href="https://github.com/jekyll/jekyll">master branch</a> contains the
+actual software project for Jekyll, however the Jekyll website (that you’re
+looking at right now) is contained in the <a href="https://github.com/jekyll/jekyll/tree/gh-pages">gh-pages
+branch</a> of the same repository.</p>
+
+<div class="note warning">
+  <h5>Source Files Must be in the Root Directory</h5>
+  <p>
+Github Pages <a href="https://help.github.com/articles/troubleshooting-github-pages-build-failures#source-setting">overrides</a> the <a href="http://jekyllrb.com/docs/configuration/#global-configuration">“Site Source”</a> configuration value, so if you locate your files anywhere other than the root directory, your site may not build correctly.
+  </p>
+</div>
+
+<h3 id="project-page-url-structure">Project Page URL Structure</h3>
+
+<p>Sometimes it’s nice to preview your Jekyll site before you push your <code class="highlighter-rouge">gh-pages</code>
+branch to GitHub. However, the subdirectory-like URL structure GitHub uses for
+Project Pages complicates the proper resolution of URLs. Here is an approach to
+utilizing the GitHub Project Page URL structure (<code class="highlighter-rouge">username.github.io/project-name/</code>)
+whilst maintaining the ability to preview your Jekyll site locally.</p>
+
+<ol>
+  <li>In <code class="highlighter-rouge">_config.yml</code>, set the <code class="highlighter-rouge">baseurl</code> option to <code class="highlighter-rouge">/project-name</code> – note the
+leading slash and the <strong>absence</strong> of a trailing slash.</li>
+  <li>When referencing JS or CSS files, do it like this:
+<code class="highlighter-rouge"><span class="p">{</span><span class="err">{</span><span class="w"> </span><span class="err">site.baseurl</span><span class="w"> </span><span class="p">}</span><span class="err">}/path/to/css.css</span></code> – note the slash
+immediately following the variable (just before “path”).</li>
+  <li>When doing permalinks or internal links, do it like this:
+<code class="highlighter-rouge"><span class="p">{</span><span class="err">{</span><span class="w"> </span><span class="err">site.baseurl</span><span class="w"> </span><span class="p">}</span><span class="err">}</span><span class="p">{</span><span class="err">{</span><span class="w"> </span><span class="err">post.url</span><span class="w"> </span><span class="p">}</span><span class="err">}</span></code> – note that there
+is <strong>no</strong> slash between the two variables.</li>
+  <li>Finally, if you’d like to preview your site before committing/deploying
+using <code class="highlighter-rouge">jekyll serve</code>, be sure to pass an <strong>empty string</strong> to the <code class="highlighter-rouge">--baseurl</code>
+option, so that you can view everything at <code class="highlighter-rouge">localhost:4000</code> normally
+(without <code class="highlighter-rouge">/project-name</code> at the beginning): <code class="highlighter-rouge">jekyll serve --baseurl ''</code></li>
+</ol>
+
+<p>This way you can preview your site locally from the site root on localhost,
+but when GitHub generates your pages from the gh-pages branch all the URLs
+will start with <code class="highlighter-rouge">/project-name</code> and resolve properly.</p>
+
+<div class="note">
+  <h5>GitHub Pages Documentation, Help, and Support</h5>
+  <p>
+    For more information about what you can do with GitHub Pages, as well as for
+    troubleshooting guides, you should check out <a href="https://help.github.com/categories/20/articles">GitHub’s Pages Help
+    section</a>. If all else fails, you should contact <a href="https://github.com/contact">GitHub Support</a>.
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="section-nav">
+      <div class="left align-right">
+
+
+
+            <a href="./extras.html" class="prev">Back</a>
+
+      </div>
+      <div class="right align-left">
+
+
+
+            <a href="./deployment-methods.html" class="next">Next</a>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class="current"><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>

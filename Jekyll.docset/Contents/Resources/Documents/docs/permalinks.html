@@ -1,0 +1,710 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Permalinks</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Permalinks</h1>
+          <p>Jekyll supports a flexible way to build your site’s URLs. You can specify the
+permalinks for your site through the <a href="../configuration/">Configuration</a> or in
+the <a href="../frontmatter/">YAML Front Matter</a> for each post. You’re free to choose
+one of the built-in styles to create your links or craft your own. The default
+style is <code class="highlighter-rouge">date</code>.</p>
+
+<p>Permalinks are constructed by creating a template URL where dynamic elements
+are represented by colon-prefixed keywords. For example, the default <code class="highlighter-rouge">date</code>
+permalink is defined according to the format <code class="highlighter-rouge">/:categories/:year/:month/:day/:title.html</code>.</p>
+
+<h2 id="template-variables">Template variables</h2>
+
+<div class="mobile-side-scroller">
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p><code>year</code></p>
+      </td>
+      <td>
+        <p>Year from the Post’s filename</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>month</code></p>
+      </td>
+      <td>
+        <p>Month from the Post’s filename</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>i_month</code></p>
+      </td>
+      <td>
+        <p>Month from the Post’s filename without leading zeros.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>day</code></p>
+      </td>
+      <td>
+        <p>Day from the Post’s filename</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>i_day</code></p>
+      </td>
+      <td>
+        <p>Day from the Post’s filename without leading zeros.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>short_year</code></p>
+      </td>
+      <td>
+        <p>Year from the Post’s filename without the century.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>hour</code></p>
+      </td>
+      <td>
+        <p>
+          Hour of the day, 24-hour clock, zero-padded from the Post’s filename. (00..23)
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>minute</code></p>
+      </td>
+      <td>
+        <p>
+          Minute of the hour from the Post’s filename. (00..59)
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>second</code></p>
+      </td>
+      <td>
+        <p>
+          Second of the minute from the Post’s filename. (00..60)
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>title</code></p>
+      </td>
+      <td>
+        <p>
+            Title from the document’s filename. May be overridden via
+            the document’s <code>slug</code> YAML front matter.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>slug</code></p>
+      </td>
+      <td>
+        <p>
+            Slugified title from the document’s filename ( any character
+            except numbers and letters is replaced as hyphen ). May be
+            overridden via the document’s <code>slug</code> YAML front matter.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>categories</code></p>
+      </td>
+      <td>
+        <p>
+          The specified categories for this Post. If a post has multiple
+          categories, Jekyll will create a hierarchy (e.g. <code>/category1/category2</code>).
+          Also Jekyll automatically parses out double slashes in the URLs,
+          so if no categories are present, it will ignore this.
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="built-in-permalink-styles">Built-in permalink styles</h2>
+
+<p>While you can specify a custom permalink style using <a href="#template-variables">template variables</a>,
+Jekyll also provides the following built-in styles for convenience.</p>
+
+<div class="mobile-side-scroller">
+<table>
+  <thead>
+    <tr>
+      <th>Permalink Style</th>
+      <th>URL Template</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p><code>date</code></p>
+      </td>
+      <td>
+        <p><code>/:categories/:year/:month/:day/:title.html</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>pretty</code></p>
+      </td>
+      <td>
+        <p><code>/:categories/:year/:month/:day/:title/</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>ordinal</code></p>
+      </td>
+      <td>
+        <p><code>/:categories/:year/:y_day/:title.html</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>none</code></p>
+      </td>
+      <td>
+        <p><code>/:categories/:title.html</code></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="pages-and-collections">Pages and collections</h2>
+
+<p>The <code class="highlighter-rouge">permalink</code> configuration setting specifies the permalink style used for
+posts. Pages and collections each have their own default permalink style; the
+default style for pages is <code class="highlighter-rouge">/:path/:basename</code> and the default for collections is
+<code class="highlighter-rouge">/:collection/:path</code>.</p>
+
+<p>These styles are modified to match the suffix style specified in the post
+permalink setting. For example, a permalink style of <code class="highlighter-rouge">pretty</code>, which contains a
+trailing slash, will update page permalinks to also contain a trailing slash:
+<code class="highlighter-rouge">/:path/:basename/</code>. A permalink style of <code class="highlighter-rouge">date</code>, which contains a trailing
+file extension, will update page permalinks to also contain a file extension:
+<code class="highlighter-rouge">/:path/:basename:output_ext</code>. The same is true for any custom permalink style.</p>
+
+<p>The permalink for an individual page or collection document can always be
+overridden in the <a href="../frontmatter/">YAML Front Matter</a> for the page or document.
+Additionally, permalinks for a given collection can be customized <a href="../collections/">in the
+collections configuration</a>.</p>
+
+<h2 id="permalink-style-examples">Permalink style examples</h2>
+
+<p>Given a post named: <code class="highlighter-rouge">/2009-04-29-slap-chop.md</code></p>
+
+<div class="mobile-side-scroller">
+<table>
+  <thead>
+    <tr>
+      <th>URL Template</th>
+      <th>Resulting Permalink URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p>None specified, or <code>permalink: date</code></p>
+      </td>
+      <td>
+        <p><code>/2009/04/29/slap-chop.html</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>pretty</code></p>
+      </td>
+      <td>
+        <p><code>/2009/04/29/slap-chop/</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>/:month-:day-:year/:title.html</code></p>
+      </td>
+      <td>
+        <p><code>/04-29-2009/slap-chop.html</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>/blog/:year/:month/:day/:title/</code></p>
+      </td>
+      <td>
+        <p><code>/blog/2009/04/29/slap-chop/</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>/:year/:month/:title</code></p>
+        <p>See <a href="#extensionless-permalinks">extensionless permalinks</a> for details.</p>
+      </td>
+      <td>
+        <p><code>/2009/04/slap-chop</code></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="extensionless-permalinks">Extensionless permalinks</h2>
+
+<p>Jekyll supports permalinks that contain neither a trailing slash nor a file
+extension, but this requires additional support from the web server to properly
+serve. When using extensionless permalinks, output files written to disk will
+still have the proper file extension (typically <code class="highlighter-rouge">.html</code>), so the web server
+must be able to map requests without file extensions to these files.</p>
+
+<p>Both <a href="../github-pages/">GitHub Pages</a> and the Jekyll’s built-in WEBrick server
+handle these requests properly without any additional work.</p>
+
+<h3 id="apache">Apache</h3>
+
+<p>The Apache web server has very extensive support for content negotiation and can
+handle extensionless URLs by setting the <a href="https://httpd.apache.org/docs/current/content-negotiation.html#multiviews">multiviews</a> option in your
+<code class="highlighter-rouge">httpd.conf</code> or <code class="highlighter-rouge">.htaccess</code> file:</p>
+
+<figure class="highlight"><pre><code class="language-apache" data-lang="apache"><span class="nl">Options</span> +MultiViews</code></pre></figure>
+
+<h3 id="nginx">Nginx</h3>
+
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#try_files">try_files</a> directive allows you to specify a list of files to search for
+to process a request. The following configuration will instruct nginx to search
+for a file with an <code class="highlighter-rouge">.html</code> extension if an exact match for the requested URI is
+not found.</p>
+
+<figure class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="k">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri</span><span class="s">.html</span> <span class="nv">$uri</span><span class="n">/</span> <span class="p">=</span><span class="mi">404</span><span class="p">;</span></code></pre></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="section-nav">
+      <div class="left align-right">
+
+
+
+            <a href="./templates.html" class="prev">Back</a>
+
+      </div>
+      <div class="right align-left">
+
+
+
+            <a href="./pagination.html" class="next">Next</a>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class="current"><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>

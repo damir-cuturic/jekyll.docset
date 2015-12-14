@@ -1,0 +1,472 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Jekyll on Windows</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Jekyll on Windows</h1>
+          <p>While Windows is not an officially-supported platform, it can be used to run
+Jekyll with the proper tweaks. This page aims to collect some of the general
+knowledge and lessons that have been unearthed by Windows users.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Julian Thilo has written up instructions to get
+<a href="http://jekyll-windows.juthilo.com/">Jekyll running on Windows</a> and it seems to work for most.
+The instructions were written for Ruby 2.0.0, but should work for later versions
+<a href="https://github.com/copiousfreetime/hitimes/issues/40">prior to 2.2</a>.</p>
+
+<p>Alternatively David Burela has written instructions on <a href="https://davidburela.wordpress.com/2015/11/28/easily-install-jekyll-on-windows-with-3-command-prompt-entries-and-chocolatey/">how to install Jekyll via Chocolately with 3 command prompt entries</a></p>
+
+<h2 id="encoding">Encoding</h2>
+
+<p>If you use UTF-8 encoding, make sure that no <code class="highlighter-rouge">BOM</code> header
+characters exist in your files or very, very bad things will happen to
+Jekyll. This is especially relevant if you’re running Jekyll on Windows.</p>
+
+<p>Additionally, you might need to change the code page of the console window to UTF-8
+in case you get a “Liquid Exception: Incompatible character encoding” error during
+the site generation process. It can be done with the following command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>chcp 65001</code></pre></figure>
+
+<h2 id="auto-regeneration">Auto-regeneration</h2>
+
+<p>As of v1.3.0, Jekyll uses the <code class="highlighter-rouge">listen</code> gem to watch for changes when the
+<code class="highlighter-rouge">--watch</code> switch is specified during a build or serve. While <code class="highlighter-rouge">listen</code> has
+built-in support for UNIX systems, it requires an extra gem for compatibility
+with Windows. Add the following to the Gemfile for your site:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">'wdm'</span><span class="p">,</span> <span class="s1">'~&gt; 0.1.0'</span> <span class="k">if</span> <span class="no">Gem</span><span class="p">.</span><span class="nf">win_platform?</span></code></pre></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>

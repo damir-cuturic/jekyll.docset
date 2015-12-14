@@ -1,0 +1,605 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Troubleshooting</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Troubleshooting</h1>
+          <p>If you ever run into problems installing or using Jekyll, here are a few tips
+that might be of help. If the problem you’re experiencing isn’t covered below,
+<strong>please <a href="/help/">check out our other help resources</a></strong> as well.</p>
+
+<ul>
+  <li><a href="#installation-problems">Installation Problems</a></li>
+  <li><a href="#problems-running-jekyll">Problems running Jekyll</a></li>
+  <li><a href="#base-url-problems">Base-URL Problems</a></li>
+  <li><a href="#configuration-problems">Configuration problems</a></li>
+  <li><a href="#markup-problems">Markup Problems</a></li>
+</ul>
+
+<h2 id="installation-problems">Installation Problems</h2>
+
+<p>If you encounter errors during gem installation, you may need to install
+the header files for compiling extension modules for Ruby 2.0.0. This
+can be done on Ubuntu or Debian by running:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo apt-get install ruby2.0.0-dev</code></pre></figure>
+
+<p>On Red Hat, CentOS, and Fedora systems you can do this by running:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo yum install ruby-devel</code></pre></figure>
+
+<p>On <a href="https://www.nearlyfreespeech.net/">NearlyFreeSpeech</a> you need to run the
+following commands before installing Jekyll:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">GEM_HOME</span><span class="o">=</span>/home/private/gems
+<span class="nb">export </span><span class="nv">GEM_PATH</span><span class="o">=</span>/home/private/gems:/usr/local/lib/ruby/gems/1.8/
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/home/private/gems/bin
+<span class="nb">export </span><span class="nv">RB_USER_INSTALL</span><span class="o">=</span><span class="s1">'true'</span></code></pre></figure>
+
+<p>To install RubyGems on Gentoo:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo emerge -av dev-ruby/rubygems</code></pre></figure>
+
+<p>On Windows, you may need to install <a href="https://wiki.github.com/oneclick/rubyinstaller/development-kit">RubyInstaller
+DevKit</a>.</p>
+
+<p>On Mac OS X, you may need to update RubyGems (using <code class="highlighter-rouge">sudo</code> only if necessary):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo gem update --system</code></pre></figure>
+
+<p>If you still have issues, you can download and install new Command Line
+Tools (such as <code class="highlighter-rouge">gcc</code>) using the command</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">xcode-select --install</code></pre></figure>
+
+<p>which may allow you to install native gems using this command (again using
+<code class="highlighter-rouge">sudo</code> only if necessary):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo gem install jekyll</code></pre></figure>
+
+<p>Note that upgrading Mac OS X does not automatically upgrade Xcode itself
+(that can be done separately via the App Store), and having an out-of-date
+Xcode.app can interfere with the command line tools downloaded above. If
+you run into this issue, upgrade Xcode and install the upgraded Command
+Line Tools.</p>
+
+<h3 id="jekyll-amp-mac-os-x-1011">Jekyll &amp; Mac OS X 10.11</h3>
+
+<p>With the introduction of System Integrity Protection, several directories
+that were previously writable are now considered system locations and are no
+longer available. Given these changes, there are a couple of simple ways to get
+up and running. One option is to change the location where the gem will be
+installed (again using <code class="highlighter-rouge">sudo</code> only if necessary):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo gem install -n /usr/local/bin jekyll</code></pre></figure>
+
+<p>Alternatively, Homebrew can be installed and used to set up Ruby. This can be
+done as follows:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ruby -e <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">"</span></code></pre></figure>
+
+<p>Once Homebrew is installed, the second step is easy:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">brew install ruby</code></pre></figure>
+
+<p>Advanced users (with more complex needs) may find it helpful to choose one of a
+number of Ruby version managers (<a href="https://rvm.io">RVM</a>, <a href="http://rbenv.org">rbenv</a>, <a href="https://github.com/postmodern/chruby">chruby</a>, <a href="https://github.com/rvm/rvm/blob/master/docs/alt.md">etc</a>.) in
+which to install Jekyll.</p>
+
+<p>If you elect to use one of the above methods to install Ruby, it might be
+necessary to modify your <code class="highlighter-rouge">$PATH</code> variable using the following command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>/usr/local/bin:<span class="nv">$PATH</span></code></pre></figure>
+
+<p>GUI apps can modify the <code class="highlighter-rouge">$PATH</code> as follows:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">launchctl setenv PATH <span class="s2">"/usr/local/bin:</span><span class="nv">$PATH</span><span class="s2">"</span></code></pre></figure>
+
+<p>Either of these approaches are useful because <code class="highlighter-rouge">/usr/local</code> is considered a
+“safe” location on systems which have SIP enabled, they avoid potential
+conflicts with the version of Ruby included by Apple, and it keeps Jekyll and
+its dependencies in a sandboxed environment. This also has the added
+benefit of not requiring <code class="highlighter-rouge">sudo</code> when you want to add or remove a gem.</p>
+
+<h3 id="could-not-find-a-javascript-runtime-execjsruntimeunavailable">Could not find a JavaScript runtime. (ExecJS::RuntimeUnavailable)</h3>
+
+<p>This error can occur during the installation of <code class="highlighter-rouge">jekyll-coffeescript</code> when
+you don’t have a proper JavaScript runtime. To solve this, either install
+<code class="highlighter-rouge">execjs</code> and <code class="highlighter-rouge">therubyracer</code> gems, or install <code class="highlighter-rouge">nodejs</code>. Check out
+<a href="https://github.com/jekyll/jekyll/issues/2327">issue #2327</a> for more info.</p>
+
+<h2 id="problems-running-jekyll">Problems running Jekyll</h2>
+
+<p>On Debian or Ubuntu, you may need to add <code class="highlighter-rouge">/var/lib/gems/1.8/bin/</code> to your path
+in order to have the <code class="highlighter-rouge">jekyll</code> executable be available in your Terminal.</p>
+
+<h2 id="base-url-problems">Base-URL Problems</h2>
+
+<p>If you are using base-url option like:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">jekyll serve --baseurl <span class="s1">'/blog'</span></code></pre></figure>
+
+<p>… then make sure that you access the site at:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">http://localhost:4000/blog/index.html</code></pre></figure>
+
+<p>It won’t work to just access:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">http://localhost:4000/blog</code></pre></figure>
+
+<h2 id="configuration-problems">Configuration problems</h2>
+
+<p>The order of precedence for conflicting <a href="../configuration/">configuration settings</a>
+is as follows:</p>
+
+<ol>
+  <li>Command-line flags</li>
+  <li>Configuration file settings</li>
+  <li>Defaults</li>
+</ol>
+
+<p>That is: defaults are overridden by options specified in <code class="highlighter-rouge">_config.yml</code>,
+and flags specified at the command-line will override all other settings
+specified elsewhere.</p>
+
+<h2 id="markup-problems">Markup Problems</h2>
+
+<p>The various markup engines that Jekyll uses may have some issues. This
+page will document them to help others who may run into the same
+problems.</p>
+
+<h3 id="liquid">Liquid</h3>
+
+<p>The latest version, version 2.0, seems to break the use of <code class="highlighter-rouge"><span class="p">{</span><span class="err">{</span></code> in
+templates. Unlike previous versions, using <code class="highlighter-rouge"><span class="p">{</span><span class="err">{</span></code> in 2.0 triggers the
+following error:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="s1">'{{'</span> was not properly terminated with regexp: /<span class="se">\}\}</span>/  <span class="o">(</span>Liquid::SyntaxError<span class="o">)</span></code></pre></figure>
+
+<h3 id="excerpts">Excerpts</h3>
+
+<p>Since v1.0.0, Jekyll has had automatically-generated post excerpts. Since
+v1.1.0, Jekyll also passes these excerpts through Liquid, which can cause
+strange errors where references don’t exist or a tag hasn’t been closed. If you
+run into these errors, try setting <code class="highlighter-rouge">excerpt_separator: ""</code> in your
+<code class="highlighter-rouge">_config.yml</code>, or set it to some nonsense string.</p>
+
+<div class="note">
+  <h5>Please report issues you encounter!</h5>
+  <p>
+  If you come across a bug, please <a href="https://github.com/jekyll/jekyll-help/issues/new">create an issue</a>
+  on GitHub describing the problem and any work-arounds you find so we can
+  document it here for others.
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="section-nav">
+      <div class="left align-right">
+
+
+
+            <a href="./continuous-integration.html" class="prev">Back</a>
+
+      </div>
+      <div class="right align-left">
+
+
+
+            <a href="./sites.html" class="next">Next</a>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class="current"><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Continuous Integration</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Continuous Integration</h1>
+          <p>You can easily test your website build against one or more versions of Ruby.
+The following guide will show you how to set up a free build environment on
+<a href="https://travis-ci.org/">Travis</a>, with <a href="https://github.com/">GitHub</a> integration for pull requests. Paid
+alternatives exist for private repositories.</p>
+
+<h2 id="enabling-travis-and-github">1. Enabling Travis and GitHub</h2>
+
+<p>Enabling Travis builds for your GitHub repository is pretty simple:</p>
+
+<ol>
+  <li>Go to your profile on travis-ci.org: https://travis-ci.org/profile/username</li>
+  <li>Find the repository for which you’re interested in enabling builds.</li>
+  <li>Click the slider on the right so it says “ON” and is a dark grey.</li>
+  <li>Optionally configure the build by clicking on the wrench icon. Further
+configuration happens in your <code class="highlighter-rouge">.travis.yml</code> file. More details on that
+below.</li>
+</ol>
+
+<h2 id="the-test-script">2. The Test Script</h2>
+
+<p>The simplest test script simply runs <code class="highlighter-rouge">jekyll build</code> and ensures that Jekyll
+doesn’t fail to build the site. It doesn’t check the resulting site, but it
+does ensure things are built properly.</p>
+
+<p>When testing Jekyll output, there is no better tool than <a href="https://github.com/gjtorikian/html-proofer">html-proofer</a>.
+This tool checks your resulting site to ensure all links and images exist.
+Utilize it either with the convenient <code class="highlighter-rouge">htmlproof</code> command-line executable,
+or write a Ruby script which utilizes the gem.</p>
+
+<p>Save the commands you want to run and succeed in a file: <code class="highlighter-rouge">./script/cibuild</code></p>
+
+<h3 id="the-html-proofer-executable">The HTML Proofer Executable</h3>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/usr/bin/env bash</span>
+<span class="nb">set</span> -e <span class="c"># halt script on error</span>
+
+bundle <span class="nb">exec </span>jekyll build
+bundle <span class="nb">exec </span>htmlproof ./_site</code></pre></figure>
+
+<p>Some options can be specified via command-line switches. Check out the
+<code class="highlighter-rouge">html-proofer</code> README for more information about these switches, or run
+<code class="highlighter-rouge">htmlproof --help</code> locally.</p>
+
+<p>For example to avoid testing external sites, use this command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>bundle <span class="nb">exec </span>htmlproof ./_site --disable-external</code></pre></figure>
+
+<h3 id="the-html-proofer-library">The HTML Proofer Library</h3>
+
+<p>You can also invoke <code class="highlighter-rouge">html-proofer</code> in Ruby scripts (e.g. in a Rakefile):</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="nb">require</span> <span class="s1">'html/proofer'</span>
+<span class="no">HTML</span><span class="o">::</span><span class="no">Proofer</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"./_site"</span><span class="p">).</span><span class="nf">run</span></code></pre></figure>
+
+<p>Options are given as a second argument to <code class="highlighter-rouge">.new</code>, and are encoded in a
+symbol-keyed Ruby Hash. For more information about the configuration options,
+check out <code class="highlighter-rouge">html-proofer</code>’s README file.</p>
+
+<h2 id="configuring-your-travis-builds">3. Configuring Your Travis Builds</h2>
+
+<p>This file is used to configure your Travis builds. Because Jekyll is built
+with Ruby and requires RubyGems to install, we use the Ruby language build
+environment. Below is a sample <code class="highlighter-rouge">.travis.yml</code> file, followed by
+an explanation of each line.</p>
+
+<p><strong>Note:</strong> You will need a Gemfile as well, <a href="http://docs.travis-ci.com/user/languages/ruby/#Dependency-Management">Travis will automatically install</a> the dependencies based on the referenced gems:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">source</span> <span class="s2">"https://rubygems.org"</span>
+
+<span class="n">gem</span> <span class="s2">"jekyll"</span>
+<span class="n">gem</span> <span class="s2">"html-proofer"</span></code></pre></figure>
+
+<p>Your <code class="highlighter-rouge">.travis.yml</code> file should look like this:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">language</span><span class="pi">:</span> <span class="s">ruby</span>
+<span class="s">rvm</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">2.1</span>
+
+<span class="s">before_script</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="s">chmod +x ./script/cibuild</span> <span class="c1"># or do this locally and commit</span>
+
+<span class="c1"># Assume bundler is being used, therefore</span>
+<span class="c1"># the `install` step will run `bundle install` by default.</span>
+<span class="s">script</span><span class="pi">:</span> <span class="s">./script/cibuild</span>
+
+<span class="c1"># branch whitelist, only for GitHub Pages</span>
+<span class="s">branches</span><span class="pi">:</span>
+  <span class="s">only</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">gh-pages</span>     <span class="c1"># test the gh-pages branch</span>
+  <span class="pi">-</span> <span class="s">/pages-(.*)/</span> <span class="c1"># test every branch which starts with "pages-"</span>
+
+<span class="s">env</span><span class="pi">:</span>
+  <span class="s">global</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">NOKOGIRI_USE_SYSTEM_LIBRARIES=true</span> <span class="c1"># speeds up installation of html-proofer</span></code></pre></figure>
+
+<p>Ok, now for an explanation of each line:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">language</span><span class="pi">:</span> <span class="s">ruby</span></code></pre></figure>
+
+<p>This line tells Travis to use a Ruby build container. It gives your script
+access to Bundler, RubyGems, and a Ruby runtime.</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">rvm</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">2.1</span></code></pre></figure>
+
+<p>RVM is a popular Ruby Version Manager (like rbenv, chruby, etc). This
+directive tells Travis the Ruby version to use when running your test
+script.</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">before_script</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="s">chmod +x ./script/cibuild</span></code></pre></figure>
+
+<p>The build script file needs to have the <em>executable</em> attribute set or
+Travis will fail with a permission denied error. You can also run this
+locally and commit the permissions directly, thus rendering this step
+irrelevant.</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">script</span><span class="pi">:</span> <span class="s">./script/cibuild</span></code></pre></figure>
+
+<p>Travis allows you to run any arbitrary shell script to test your site. One
+convention is to put all scripts for your project in the <code class="highlighter-rouge">script</code>
+directory, and to call your test script <code class="highlighter-rouge">cibuild</code>. This line is completely
+customizable. If your script won’t change much, you can write your test
+incantation here directly:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">install</span><span class="pi">:</span> <span class="s">gem install jekyll html-proofer</span>
+<span class="s">script</span><span class="pi">:</span> <span class="s">jekyll build &amp;&amp; htmlproof ./_site</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">script</code> directive can be absolutely any valid shell command.</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># branch whitelist, only for GitHub Pages</span>
+<span class="s">branches</span><span class="pi">:</span>
+  <span class="s">only</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">gh-pages</span>     <span class="c1"># test the gh-pages branch</span>
+  <span class="pi">-</span> <span class="s">/pages-(.*)/</span> <span class="c1"># test every branch which starts with "pages-"</span></code></pre></figure>
+
+<p>You want to ensure the Travis builds for your site are being run only on
+the branch or branches which contain your site. One means of ensuring this
+isolation is including a branch whitelist in your Travis configuration
+file. By specifying the <code class="highlighter-rouge">gh-pages</code> branch, you will ensure the associated
+test script (discussed above) is only executed on site branches. If you use
+a pull request flow for proposing changes, you may wish to enforce a
+convention for your builds such that all branches containing edits are
+prefixed, exemplified above with the <code class="highlighter-rouge">/pages-(.*)/</code> regular expression.</p>
+
+<p>The <code class="highlighter-rouge">branches</code> directive is completely optional. Travis will build from every
+push to any branch of your repo if leave it out.</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">env</span><span class="pi">:</span>
+  <span class="s">global</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">NOKOGIRI_USE_SYSTEM_LIBRARIES=true</span> <span class="c1"># speeds up installation of html-proofer</span></code></pre></figure>
+
+<p>Using <code class="highlighter-rouge">html-proofer</code>? You’ll want this environment variable. Nokogiri, used
+to parse HTML files in your compiled site, comes bundled with libraries
+which it must compile each time it is installed. Luckily, you can
+dramatically decrease the install time of Nokogiri by setting the
+environment variable <code class="highlighter-rouge">NOKOGIRI_USE_SYSTEM_LIBRARIES</code> to <code class="highlighter-rouge">true</code>.</p>
+
+<div class="note warning">
+  <h5>Be sure to exclude <code>vendor</code> from your
+   <code>_config.yml</code></h5>
+  <p>Travis bundles all gems in the <code>vendor</code> directory on its build
+   servers, which Jekyll will mistakenly read and explode on.</p>
+</div>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">exclude</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">vendor</span><span class="pi">]</span></code></pre></figure>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<p><strong>Travis error:</strong> <em>“You are trying to install in deployment mode after changing
+your Gemfile. Run bundle install elsewhere and add the updated Gemfile.lock
+to version control.”</em></p>
+
+<p><strong>Workaround:</strong> Either run <code class="highlighter-rouge">bundle install</code> locally and commit your changes to
+<code class="highlighter-rouge">Gemfile.lock</code>, or remove the <code class="highlighter-rouge">Gemfile.lock</code> file from your repository and add
+an entry in the <code class="highlighter-rouge">.gitignore</code> file to avoid it from being checked in again.</p>
+
+<h3 id="questions">Questions?</h3>
+
+<p>This entire guide is open-source. Go ahead and <a href="https://github.com/jekyll/jekyll/edit/master/site/_docs/continuous-integration.md">edit it</a> if you have a
+fix or <a href="http://jekyllrb.com/help/">ask for help</a> if you run into trouble and need some help.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="section-nav">
+      <div class="left align-right">
+
+
+
+            <a href="./deployment-methods.html" class="prev">Back</a>
+
+      </div>
+      <div class="right align-left">
+
+
+
+            <a href="./troubleshooting.html" class="next">Next</a>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class="current"><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>

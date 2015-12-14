@@ -1,0 +1,569 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Contributing</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Contributing</h1>
+          <p>So you’ve got an awesome idea to throw into Jekyll. Great! Please keep the
+following in mind:</p>
+
+<ul>
+  <li><strong>Use https://talk.jekyllrb.com for non-technical or indirect Jekyll questions that are not bugs.</strong></li>
+  <li><strong>Contributions will not be accepted without tests or necessary documentation updates.</strong></li>
+  <li>If you’re creating a small fix or patch to an existing feature, just a simple
+test will do. Please stay in the confines of the current test suite and use
+<a href="https://github.com/thoughtbot/shoulda/tree/master">Shoulda</a> and
+<a href="https://github.com/rspec/rspec-mocks">RSpec-Mocks</a>.</li>
+  <li>If it’s a brand new feature, make sure to create a new
+<a href="https://github.com/cucumber/cucumber/">Cucumber</a> feature and reuse steps
+where appropriate. Also, whipping up some documentation in your fork’s <code class="highlighter-rouge">site</code>
+would be appreciated, and once merged it will be transferred over to the main
+<code class="highlighter-rouge">site</code>, jekyllrb.com.</li>
+  <li>If your contribution changes any Jekyll behavior, make sure to update the
+documentation. It lives in <code class="highlighter-rouge">site/_docs</code>. If the docs are missing information,
+please feel free to add it in. Great docs make a great project!</li>
+  <li>Please follow the <a href="https://github.com/styleguide/ruby">GitHub Ruby Styleguide</a>
+when modifying Ruby code.</li>
+  <li>Please do your best to submit <strong>small pull requests</strong>. The easier the proposed
+change is to review, the more likely it will be merged.</li>
+  <li>When submitting a pull request, please make judicious use of the pull request
+body. A description of what changes were made, the motivations behind the
+changes and <a href="http://git.io/gfm-tasks">any tasks completed or left to complete</a>
+will also speed up review time.</li>
+</ul>
+
+<div class="note warning">
+  <h5>Contributions will not be accepted without tests</h5>
+  <p>
+    If you’re creating a small fix or patch to an existing feature, just
+    a simple test will do.
+  </p>
+</div>
+
+<h2 id="test-dependencies">Test Dependencies</h2>
+
+<p>To run the test suite and build the gem you’ll need to install Jekyll’s
+dependencies. Simply run this command to get all set up:</p>
+
+<figure class="highlight"><pre><code>$ script/bootstrap</code></pre></figure>
+
+<p>Before you start, run the tests and make sure that they pass (to confirm your
+environment is configured properly):</p>
+
+<figure class="highlight"><pre><code>$ script/cibuild</code></pre></figure>
+
+<p>If you are only updating a file in <code class="highlighter-rouge">test/</code>, you can use the command:</p>
+
+<figure class="highlight"><pre><code>$ script/test test/blah_test.rb</code></pre></figure>
+
+<p>If you are only updating a <code class="highlighter-rouge">.feature</code> file, you can use the command:</p>
+
+<figure class="highlight"><pre><code>$ script/cucumber features/blah.feature</code></pre></figure>
+
+<p>Both <code class="highlighter-rouge">script/test</code> and <code class="highlighter-rouge">script/cucumber</code> can be run without arguments to
+run its entire respective suite.</p>
+
+<h2 id="workflow">Workflow</h2>
+
+<p>Here’s the most direct way to get your work merged into the project:</p>
+
+<ul>
+  <li>Fork the project.</li>
+  <li>Clone down your fork ( <code class="highlighter-rouge">git clone git@github.com:[username]/jekyll.git</code> ).</li>
+  <li>Create a topic branch to contain your change ( <code class="highlighter-rouge">git checkout -b my_awesome_feature</code> ).</li>
+  <li>Hack away, add tests. Not necessarily in that order.</li>
+  <li>Make sure everything still passes by running <code class="highlighter-rouge">script/cibuild</code>.</li>
+  <li>If necessary, rebase your commits into logical chunks, without errors.</li>
+  <li>Push the branch up ( <code class="highlighter-rouge">git push origin my_awesome_feature</code> ).</li>
+  <li>Create a pull request against jekyll/jekyll and describe what your change
+does and the why you think it should be merged.</li>
+</ul>
+
+<h2 id="updating-documentation">Updating Documentation</h2>
+
+<p>We want the Jekyll documentation to be the best it can be. We’ve
+open-sourced our docs and we welcome any pull requests if you find it
+lacking.</p>
+
+<p>You can find the documentation for jekyllrb.com in the
+<a href="https://github.com/jekyll/jekyll/tree/master/site">site</a> directory of
+Jekyll’s repo on GitHub.com.</p>
+
+<p>All documentation pull requests should be directed at <code class="highlighter-rouge">master</code>. Pull
+requests directed at another branch will not be accepted.</p>
+
+<p>The <a href="https://github.com/jekyll/jekyll/wiki">Jekyll wiki</a> on GitHub
+can be freely updated without a pull request as all GitHub users have access.</p>
+
+<p>If you want to add your plugin to the <a href="/docs/plugins/#available-plugins">list of plugins</a>,
+please submit a pull request modifying the <a href="https://github.com/jekyll/jekyll/blob/master/site/_docs/plugins.md">plugins page source
+file</a> by adding a
+link to your plugin under the proper subheading depending upon its type.</p>
+
+<h2 id="gotchas">Gotchas</h2>
+
+<ul>
+  <li>Please do not bump the gem version in your pull requests.</li>
+  <li>Try to keep your patch(es) based from the latest commit on jekyll/jekyll.
+The easier it is to apply your work, the less work the maintainers have to do,
+which is always a good thing.</li>
+  <li>Please don’t tag your GitHub issue with [fix], [feature], etc. The maintainers
+actively read the issues and will label it once they come across it.</li>
+</ul>
+
+<h2 id="finally">Finally…</h2>
+
+<div class="note">
+  <h5>Let us know what could be better!</h5>
+  <p>
+    Both using and hacking on Jekyll should be fun, simple, and easy, so if for
+    some reason you find it’s a pain, please <a href="https://github.com/jekyll/jekyll/issues/new">create an issue</a> on
+    GitHub describing your experience so we can make it better.
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="section-nav">
+      <div class="left align-right">
+
+
+
+            <a href="./upgrading/2-to-3.html" class="prev">Back</a>
+
+      </div>
+      <div class="right align-left">
+
+
+
+            <a href="./history.html" class="next">Next</a>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class="current"><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Basic Usage</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Basic Usage</h1>
+          <p>The Jekyll gem makes a <code class="highlighter-rouge">jekyll</code> executable available to you in your Terminal
+window. You can use this command in a number of ways:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>jekyll build
+<span class="c"># =&gt; The current folder will be generated into ./_site</span>
+
+<span class="gp">$ </span>jekyll build --destination &lt;destination&gt;
+<span class="c"># =&gt; The current folder will be generated into &lt;destination&gt;</span>
+
+<span class="gp">$ </span>jekyll build --source &lt;<span class="nb">source</span>&gt; --destination &lt;destination&gt;
+<span class="c"># =&gt; The &lt;source&gt; folder will be generated into &lt;destination&gt;</span>
+
+<span class="gp">$ </span>jekyll build --watch
+<span class="c"># =&gt; The current folder will be generated into ./_site,</span>
+<span class="c">#    watched for changes, and regenerated automatically.</span></code></pre></figure>
+
+<div class="note info">
+  <h5>Changes to _config.yml are not included during automatic regeneration.</h5>
+  <p>
+    The <code>_config.yml</code> master configuration file contains global configurations
+    and variable definitions that are read once at execution time. Changes made to <code>_config.yml</code>
+    during automatic regeneration are not loaded until the next execution.
+  </p>
+  <p>
+    Note <a href="../datafiles">Data Files</a> are included and reloaded during automatic regeneration.
+  </p>
+</div>
+
+<div class="note warning">
+  <h5>Destination folders are cleaned on site builds</h5>
+  <p>
+    The contents of <code>&lt;destination&gt;</code> are automatically
+    cleaned, by default, when the site is built. Files or folders that are not
+    created by your site will be removed. Files and folders you wish to retain
+    in <code>&lt;destination&gt;</code> may be specified within the <code>&lt;keep_files&gt;</code>
+    configuration directive.
+  </p>
+  <p>
+    Do not use an important location for <code>&lt;destination&gt;</code>;
+    instead, use it as a staging area and copy files from there to your web server.
+  </p>
+</div>
+
+<p>Jekyll also comes with a built-in development server that will allow you to
+preview what the generated site will look like in your browser locally.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>jekyll serve
+<span class="c"># =&gt; A development server will run at http://localhost:4000/</span>
+<span class="c"># Auto-regeneration: enabled. Use `--no-watch` to disable.</span>
+
+<span class="gp">$ </span>jekyll serve --detach
+<span class="c"># =&gt; Same as `jekyll serve` but will detach from the current terminal.</span>
+<span class="c">#    If you need to kill the server, you can `kill -9 1234` where "1234" is the PID.</span>
+<span class="c">#    If you cannot find the PID, then do, `ps aux | grep jekyll` and kill the instance. [Read more](http://unixhelp.ed.ac.uk/shell/jobz5.html).</span></code></pre></figure>
+
+<div class="note info">
+  <h5>Be aware of default behavior</h5>
+  <p>
+    As of version 2.4, the <code>serve</code> command will watch for changes automatically. To disable this, you can use <code>jekyll serve --no-watch</code>, which preserves the old behavior.
+  </p>
+</div>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>jekyll serve --no-watch
+<span class="c"># =&gt; Same as `jekyll serve` but will not watch for changes.</span></code></pre></figure>
+
+<p>These are just a few of the available <a href="../configuration/">configuration options</a>.
+Many configuration options can either be specified as flags on the command line,
+or alternatively (and more commonly) they can be specified in a <code class="highlighter-rouge">_config.yml</code>
+file at the root of the source directory. Jekyll will automatically use the
+options from this file when run. For example, if you place the following lines
+in your <code class="highlighter-rouge">_config.yml</code> file:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">source</span><span class="pi">:</span>      <span class="s">_source</span>
+<span class="s">destination</span><span class="pi">:</span> <span class="s">_deploy</span></code></pre></figure>
+
+<p>Then the following two commands will be equivalent:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>jekyll build
+<span class="gp">$ </span>jekyll build --source _source --destination _deploy</code></pre></figure>
+
+<p>For more about the possible configuration options, see the
+<a href="../configuration/">configuration</a> page.</p>
+
+<p>If you’re interested in browsing these docs on-the-go, install the
+<code class="highlighter-rouge">jekyll-docs</code> gem and run <code class="highlighter-rouge">jekyll docs</code> in your terminal.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="section-nav">
+      <div class="left align-right">
+
+
+
+            <a href="./installation.html" class="prev">Back</a>
+
+      </div>
+      <div class="right align-left">
+
+
+
+            <a href="./structure.html" class="next">Next</a>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class="current"><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>

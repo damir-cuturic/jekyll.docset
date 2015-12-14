@@ -1,0 +1,519 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Upgrading from 2.x to 3.x</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Jekyll v3.0.1">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic,900">
+  <link rel="stylesheet" href="../css/screen.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.min.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+
+<body class="wrap">
+
+    <section class="docs">
+    <div class="grid">
+
+
+      <div class="unit four-fifths">
+        <article>
+          <h1>Upgrading from 2.x to 3.x</h1>
+          <p>Upgrading from an older version of Jekyll? A few things have changed in 3.0
+that you’ll want to know about.</p>
+
+<p>Before we dive in, go ahead and fetch the latest version of Jekyll:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>gem update jekyll</code></pre></figure>
+
+<div class="note feature">
+  <h5>Diving in</h5>
+  <p>Want to get a new Jekyll site up and running quickly? Simply
+   run <code>jekyll new SITENAME</code> to create a new folder with a bare bones
+   Jekyll site.</p>
+</div>
+
+<h3 id="sitecollections-has-changed">site.collections has changed</h3>
+
+<p>In 2.x, your iterations over <code class="highlighter-rouge">site.collections</code> yielded an array with the collection
+label and the collection object as the first and second items, respectively. In 3.x,
+this complication has been removed and iterations now yield simply the collection object.
+A simple conversion must be made in your templates:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">collection[0]</code> becomes <code class="highlighter-rouge">collection.label</code></li>
+  <li><code class="highlighter-rouge">collection[1]</code> becomes <code class="highlighter-rouge">collection</code></li>
+</ul>
+
+<p>When iterating over <code class="highlighter-rouge">site.collections</code>, ensure the above conversions are made.</p>
+
+<h3 id="dropped-dependencies">Dropped dependencies</h3>
+
+<p>We dropped a number of dependencies the Core Team felt were optional. As such, in 3.0, they must be explicitly installed and included if you use any of the features. They are:</p>
+
+<ul>
+  <li>jekyll-paginate – Jekyll’s pagination solution from days past</li>
+  <li>jekyll-coffeescript – processing of CoffeeScript</li>
+  <li>jekyll-gist – the <code class="highlighter-rouge">gist</code> Liquid tag</li>
+  <li>pygments.rb – the Pygments highlighter</li>
+  <li>redcarpet – the Markdown processor</li>
+  <li>toml – an alternative to YAML for configuration files</li>
+  <li>classifier-reborn – for <code class="highlighter-rouge">site.related_posts</code></li>
+</ul>
+
+<h3 id="future-posts">Future posts</h3>
+
+<p>A seeming feature regression in 2.x, the <code class="highlighter-rouge">--future</code> flag was automatically <em>enabled</em>.
+The future flag allows post authors to give the post a date in the future and to have
+it excluded from the build until the system time is equal or after the post time.
+In Jekyll 3, this has been corrected. <strong>Now, <code class="highlighter-rouge">--future</code> is disabled by default.</strong>
+This means you will need to include <code class="highlighter-rouge">--future</code> if you want your future-dated posts to
+generate when running <code class="highlighter-rouge">jekyll build</code> or <code class="highlighter-rouge">jekyll serve</code>.</p>
+
+<h3 id="layout-metadata">Layout metadata</h3>
+
+<p>Introducing: <code class="highlighter-rouge">layout</code>. In Jekyll 2 and below, any metadata in the layout was munged onto
+the <code class="highlighter-rouge">page</code> variable in Liquid. This caused a lot of confusion in the way the data was
+merged and some unexpected behaviour. In Jekyll 3, all layout data is accessible via <code class="highlighter-rouge">layout</code>
+in Liquid. For example, if your layout has <code class="highlighter-rouge">class: my-layout</code> in its YAML front matter,
+then the layout can access that via <code class="highlighter-rouge"><span class="p">{</span><span class="err">{</span><span class="w"> </span><span class="err">layout.class</span><span class="w"> </span><span class="p">}</span><span class="err">}</span></code>.</p>
+
+<h3 id="syntax-highlighter-changed">Syntax highlighter changed</h3>
+
+<p>For the first time, the default syntax highlighter has changed for the
+<code class="highlighter-rouge">highlight</code> tag and for backtick code blocks. Instead of <a href="https://github.com/tmm1/pygments.rb">Pygments.rb</a>,
+it’s now <a href="http://rouge.jneen.net/">Rouge</a>. If you were using the <code class="highlighter-rouge">highlight</code> tag with certain
+options, such as <code class="highlighter-rouge">hl_lines</code>, they may not be available when using Rouge. To
+go back to using Pygments, set <code class="highlighter-rouge">highlighter: pygments</code> in your
+<code class="highlighter-rouge">_config.yml</code> file and run <code class="highlighter-rouge">gem install pygments.rb</code> or add
+<code class="highlighter-rouge">gem 'pygments.rb'</code> to your project’s <code class="highlighter-rouge">Gemfile</code>.</p>
+
+<p><em>Did we miss something? Please click “Improve this page” above and add a section. Thanks!</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="section-nav">
+      <div class="left align-right">
+
+
+
+            <a href="./0-to-2.html" class="prev">Back</a>
+
+      </div>
+      <div class="right align-left">
+
+
+
+            <a href="./contributing.html" class="next">Next</a>
+
+      </div>
+    </div>
+    <div class="clear"></div>
+
+        </article>
+      </div>
+      <div class="unit one-fifth hide-on-mobiles">
+  <aside>
+
+    <h4>Getting Started</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="../index.html">Welcome</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./quickstart.html">Quick-start guide</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./installation.html">Installation</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./usage.html">Basic Usage</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./structure.html">Directory structure</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./configuration.html">Configuration</a></li>
+
+
+</ul>
+
+
+    <h4>Your Content</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./frontmatter.html">Front Matter</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./posts.html">Writing posts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./drafts.html">Working with drafts</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pages.html">Creating pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./static-files.html">Static Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./variables.html">Variables</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./collections.html">Collections</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./datafiles.html">Data Files</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./assets.html">Assets</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./migrations.html">Blog migrations</a></li>
+
+
+</ul>
+
+
+    <h4>Customization</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./templates.html">Templates</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./permalinks.html">Permalinks</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./pagination.html">Pagination</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./plugins.html">Plugins</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./extras.html">Extras</a></li>
+
+
+</ul>
+
+
+    <h4>Deployment</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./github-pages.html">GitHub Pages</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./deployment-methods.html">Deployment methods</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./continuous-integration.html">Continuous Integration</a></li>
+
+
+</ul>
+
+
+    <h4>Miscellaneous</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./troubleshooting.html">Troubleshooting</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./sites.html">Sites using Jekyll</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./resources.html">Resources</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./0-to-2.html">Upgrading from 0.x to 2.x</a></li>
+
+
+
+
+
+
+
+  <li class="current"><a href="./2-to-3.html">Upgrading from 2.x to 3.x</a></li>
+
+
+</ul>
+
+
+    <h4>Meta</h4>
+
+
+<ul>
+
+
+
+
+
+
+  <li class=""><a href="./contributing.html">Contributing</a></li>
+
+
+
+
+
+
+
+  <li class=""><a href="./history.html">History</a></li>
+
+
+</ul>
+
+
+  </aside>
+</div>
+
+      <div class="clear"></div>
+
+    </div>
+  </section>
+
+
+</body>
+</html>
