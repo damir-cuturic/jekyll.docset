@@ -13,3 +13,5 @@ This is my first time making a docSet, so there is a possibility that I made som
 ![Screenshot](/img/zeal_1.jpg?raw=true)
 
 If you encounter any issues please file a issue and I'll do my best to fix it
+
+### [Download](https://github.com/damir-cuturic/jekyll.docset/releases/download/v0.1-alpha/Jekyll.docset-v0.1-alpha.tar.gz)
