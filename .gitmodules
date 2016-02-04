@@ -1,0 +1,3 @@
+[submodule "source-pages"]
+	path = source-pages
+	url = https://github.com/jekyll/jekyll.git
